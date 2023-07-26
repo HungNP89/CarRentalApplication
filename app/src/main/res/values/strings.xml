@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Rentaka</string>
+    <string name="title_home">Home</string>
+    <string name="title_car_rental">Car Rental</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_location">Location</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rentaka">Rentaka</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="top_login_image">top_login_image</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <string name="top_register_image">top_register_image</string>
+    <string name="register">Register</string>
+    <string name="username">User Name</string>
+    <string name="phone">Phone No</string>
+    <string name="address">Address</string>
+    <string name="already_have_an_account">Already have an account ?</string>
+    <string name="top_fp_image">top_fp_image</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="change_your_mind">Change your mind ?</string>
+    <string name="pick_vehicle_you_want_to_rent">Pick vehicle you want to rent</string>
+    <string name="normal">Normal</string>
+    <string name="hybrid">Hybrid\n</string>
+    <string name="electric">Electric</string>
+    <string name="sport">Sport</string>
+    <string name="e_bike">E-Bike</string>
+    <string name="motorcycle">Motorcycle</string>
+    <string name="skip">Skip</string>
+</resources>

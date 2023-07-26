@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brick_red">#962715</color>
+    <color name="gloss_white">#FFFFFF</color>
+    <color name="matte_black">#1E1E20</color>
+    <color name="medium_gray">#BBC3C6</color>
+</resources>

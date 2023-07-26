@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="grey">#808080</color>
+    <color name="black_steel">#080706</color>
+    <color name="paper">#EFEFEF</color>
+    <color name="gold_leaf">#D1B280</color>
+    <color name="silver">#594D46</color>
+    <color name="brick_red">#962715</color>
+    <color name="gloss_white">#FFFFFF</color>
+    <color name="matte_black">#1E1E20</color>
+    <color name="medium_gray">#BBC3C6</color>
+</resources>
