@@ -1,11 +1,15 @@
 package com.example.carrentalapplication.uiActivity;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,12 +21,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Register extends AppCompatActivity {
     //For interacting with create id design in XML
     Button btnSignUp, btnToSignIn;
     String username, email, phone, password, address;
     TextInputLayout Username, Email, Phone, Password, Address;
+    ProgressBar progressBar;
 
     //For interacting with Firebase service
     FirebaseDatabase firebaseDatabase;
@@ -31,11 +38,13 @@ public class Register extends AppCompatActivity {
 
     //For controlling email input
     String pattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //initialize UI elements in the layout
         btnSignUp = findViewById(R.id.btn_SignUp);
@@ -45,6 +54,7 @@ public class Register extends AppCompatActivity {
         Address = findViewById(R.id.textInputAddressRegister);
         Phone = findViewById(R.id.textInputPhoneRegister);
         Password = findViewById(R.id.textInputPasswordRegister);
+        progressBar = findViewById(R.id.progressBar);
 
         //clickable button to move to Log In screen
         btnToSignIn.setOnClickListener(view -> {
@@ -69,40 +79,53 @@ public class Register extends AppCompatActivity {
 
             //check validation of input
             if (isValid()) {
-                //show dialog when validation is true
-                final ProgressDialog dialog = new ProgressDialog(Register.this);
-                dialog.setCancelable(false);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setMessage("Sign Up is now processing");
-                dialog.show();
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                    //create User table with input information in Firebase if successfully
-                    if (task.isSuccessful()) {
-                        HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("Username", username);
-                        hashMap.put("Email", email);
-                        hashMap.put("Phone", phone);
-                        hashMap.put("Address", address);
-                        hashMap.put("Password", password);
-                        firebaseDatabase.getReference("Users").child(firebaseAuth.getCurrentUser().getUid()).setValue(hashMap).addOnCompleteListener(task1 -> {
-                            dialog.dismiss();
-                            final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                            firebaseUser.sendEmailVerification().addOnCompleteListener(task12 -> {
-                                //Send email to user and create dialog to notify user to verify email
-                                if (task12.isSuccessful()) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
-                                    builder.setMessage("Verify your Email before Sign In");
-                                    builder.setCancelable(false);
-                                    builder.setPositiveButton("OK", (dialogInterface, i) -> dialog.dismiss());
-                                    AlertDialog alertDialog = builder.create();
-                                    alertDialog.show();
-                                } else {
-                                    dialog.dismiss();
+                //show progress when validation is true
+                progressBar.setVisibility(View.VISIBLE);
+                Timer timer = new Timer();
+                TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        counter++;
+                        progressBar.setProgress(counter);
+                        if (counter == 100) {
+                            timer.cancel();
+                            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                                //create User table with input information in Firebase if successfully
+                                if (task.isSuccessful()) {
+                                    HashMap<String, String> hashMap = new HashMap<>();
+                                    hashMap.put("Username", username);
+                                    hashMap.put("Email", email);
+                                    hashMap.put("Phone", phone);
+                                    hashMap.put("Address", address);
+                                    hashMap.put("Password", password);
+                                    firebaseDatabase.getReference("Users").child(firebaseAuth.getCurrentUser().getUid()).setValue(hashMap).addOnCompleteListener(task1 -> {
+                                        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                                        firebaseUser.sendEmailVerification().addOnCompleteListener(task12 -> {
+                                            //Send email to user and create dialog to notify user to verify email
+                                            if (task12.isSuccessful()) {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
+                                                builder.setMessage("Sign Up success!\nPlease verify your email to continue. ");
+                                                builder.setCancelable(false);
+                                                builder.setPositiveButton("OK", (dialogInterface, i) -> {
+                                                    Intent intent = new Intent(Register.this, Login.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                });
+                                                progressBar.setVisibility(View.GONE);
+                                                AlertDialog alertDialog = builder.create();
+                                                alertDialog.show();
+                                            } else {
+                                                Toast.makeText(Register.this, "Errors", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    });
                                 }
                             });
-                        });
+                        }
                     }
-                });
+                };
+
+                timer.schedule(timerTask, 50, 50);
             }
         });
     }

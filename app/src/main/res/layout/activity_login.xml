@@ -17,16 +17,16 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="250dp"
+            android:layout_height="240dp"
             android:layout_gravity="top|center"
             android:contentDescription="@string/top_login_image"
             android:src="@drawable/login_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="550dp"
             android:layout_gravity="center"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="95dp"
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -139,30 +139,42 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_google"
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/custom_shape"
                     android:drawableStart="@drawable/search"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
                     android:fontFamily="serif-monospace"
                     android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
                     android:text="@string/google"
                     android:textColor="@color/black_steel" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_facebook"
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
-                    android:fontFamily="serif-monospace"
-                    android:text="@string/facebook"
                     android:layout_marginStart="30dp"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
                     android:background="@drawable/custom_shape"
                     android:drawableStart="@drawable/facebook"
-                    android:textColor="@color/black_steel"
-                    android:gravity="center"/>
+                    android:fontFamily="serif-monospace"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/facebook"
+                    android:textColor="@color/black_steel" />
             </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBarLogin"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:progressTint="@color/brick_red"
+                android:visibility="gone" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
