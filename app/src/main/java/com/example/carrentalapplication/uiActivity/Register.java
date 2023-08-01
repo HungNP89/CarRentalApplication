@@ -115,6 +115,7 @@ public class Register extends AppCompatActivity {
                                                 AlertDialog alertDialog = builder.create();
                                                 alertDialog.show();
                                             } else {
+                                                progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(Register.this, "Errors", Toast.LENGTH_SHORT).show();
                                             }
                                         });

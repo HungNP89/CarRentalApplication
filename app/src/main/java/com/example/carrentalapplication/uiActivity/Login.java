@@ -1,8 +1,5 @@
 package com.example.carrentalapplication.uiActivity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +9,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carrentalapplication.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,7 +35,7 @@ import java.util.TimerTask;
 
 public class Login extends AppCompatActivity {
     //For interacting with created design ID in XML file
-    Button btnToSignUp , btnSignIn, btnForgotPass, btnGoogle, btnFacebook;
+    Button btnToSignUp, btnSignIn, btnForgotPass, btnGoogle;
     TextInputLayout Email, Password;
     ProgressBar progressBar;
     String email, password;
@@ -50,18 +51,18 @@ public class Login extends AppCompatActivity {
     int counter;
 
     int RC_SIGN_IN = 20;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //Initialize UI elements in the layout
         btnToSignUp = findViewById(R.id.toSignUp);
         btnSignIn = findViewById(R.id.btn_SignIn);
         btnForgotPass = findViewById(R.id.btn_forgot);
         btnGoogle = findViewById(R.id.btn_google);
-        btnFacebook = findViewById(R.id.btn_facebook);
         Email = findViewById(R.id.textInputEmail);
         Password = findViewById(R.id.textInputPassword);
         progressBar = findViewById(R.id.progressBarLogin);
@@ -73,7 +74,7 @@ public class Login extends AppCompatActivity {
 
         //clickable button to move to Sign Up Screen
         btnToSignUp.setOnClickListener(view -> {
-            Intent moveToSignUp = new Intent(Login.this,Register.class);
+            Intent moveToSignUp = new Intent(Login.this, Register.class);
             startActivity(moveToSignUp);
             finish();
         });
@@ -88,20 +89,15 @@ public class Login extends AppCompatActivity {
         //Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
-                        .requestEmail().build();
+                .requestEmail().build();
 
-        googleSignInClient = GoogleSignIn.getClient(this,gso);
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
         googleSignInClient.signOut();
         btnGoogle.setOnClickListener(view -> {
             Intent googleSignIn = googleSignInClient.getSignInIntent();
-            startActivityForResult(googleSignIn,RC_SIGN_IN);
+            startActivityForResult(googleSignIn, RC_SIGN_IN);
         });
-
-
-        btnFacebook.setOnClickListener(view -> {
-
-        });
-
+        
         //clickable button to Sign In and move to Category Screen
         btnSignIn.setOnClickListener(view -> {
             email = Email.getEditText().getText().toString().trim();
@@ -117,27 +113,29 @@ public class Login extends AppCompatActivity {
                     public void run() {
                         counter++;
                         progressBar.setProgress(counter);
-                        if(counter == 100) {
+                        if (counter == 100) {
                             time.cancel();
-                            firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+                            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                                 //check if user is already verify email or not
-                                if(task.isSuccessful()) {
+                                if (task.isSuccessful()) {
                                     if (firebaseAuth.getCurrentUser().isEmailVerified()) {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                                         builder.setMessage("Login Successfully");
                                         builder.setCancelable(false);
                                         builder.setPositiveButton("OK", (dialogInterface, i) -> {
-                                            Intent intent = new Intent(Login.this,Category.class);
+                                            Intent intent = new Intent(Login.this, Category.class);
                                             startActivity(intent);
                                             finish();
                                         });
+                                        progressBar.setVisibility(View.GONE);
                                         AlertDialog alertDialog = builder.create();
                                         alertDialog.show();
                                     } else {
-                                        Toast.makeText(Login.this,"Please verify your email first",Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+                                        Toast.makeText(Login.this, "Please verify your email first", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(Login.this,"Wrong account",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "Wrong account", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -182,39 +180,39 @@ public class Login extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseGoogleAuth(account.getIdToken());
-            }  catch (ApiException e) {
+            } catch (ApiException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
     private void firebaseGoogleAuth(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken,null);
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
+                    if (task.isSuccessful()) {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         HashMap<String, Object> map = new HashMap<>();
-                        map.put("Id",user.getUid());
-                        map.put("Username",user.getDisplayName());
-                        map.put("Email",user.getEmail());
+                        map.put("Id", user.getUid());
+                        map.put("Username", user.getDisplayName());
+                        map.put("Email", user.getEmail());
 
                         reference.child(user.getUid()).setValue(map);
 
                         Handler handler = new Handler();
                         handler.postDelayed((Runnable) () -> {
-                            Intent intent = new Intent(Login.this,Category.class);
+                            Intent intent = new Intent(Login.this, Category.class);
                             startActivity(intent);
                             finish();
-                        },2000);
+                        }, 2000);
 
                     } else {
-                        Toast.makeText(Login.this,"Errors",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Errors", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

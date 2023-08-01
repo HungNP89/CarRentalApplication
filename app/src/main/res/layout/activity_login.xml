@@ -150,20 +150,6 @@
                     android:paddingEnd="15dp"
                     android:text="@string/google"
                     android:textColor="@color/black_steel" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_facebook"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
-                    android:background="@drawable/custom_shape"
-                    android:drawableStart="@drawable/facebook"
-                    android:fontFamily="serif-monospace"
-                    android:gravity="center"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:text="@string/facebook"
-                    android:textColor="@color/black_steel" />
             </LinearLayout>
 
             <ProgressBar
