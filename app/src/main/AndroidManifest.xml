@@ -16,6 +16,21 @@
         android:theme="@style/Theme.CarRentalApplication"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".uiActivity.Motorcycle"
+            android:exported="false" />
+        <activity
+            android:name=".uiActivity.EBike"
+            android:exported="false" />
+        <activity
+            android:name=".uiActivity.SportCar"
+            android:exported="false" />
+        <activity
+            android:name=".uiActivity.ElectricCar"
+            android:exported="false" />
+        <activity
+            android:name=".uiActivity.HybridCar"
+            android:exported="false" />
+        <activity
             android:name=".uiActivity.NormalCar"
             android:exported="false" />
         <activity
