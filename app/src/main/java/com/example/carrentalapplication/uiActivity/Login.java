@@ -35,7 +35,7 @@ import java.util.TimerTask;
 
 public class Login extends AppCompatActivity {
     //For interacting with created design ID in XML file
-    Button btnToSignUp, btnSignIn, btnForgotPass, btnGoogle;
+    Button btnToSignUp, btnSignIn, btnToForgotPass, btnGoogle;
     TextInputLayout Email, Password;
     ProgressBar progressBar;
     String email, password;
@@ -48,7 +48,7 @@ public class Login extends AppCompatActivity {
 
     //For controlling Sign In input
     String pattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    int counter;
+    int counter ;
 
     int RC_SIGN_IN = 20;
 
@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity {
         //Initialize UI elements in the layout
         btnToSignUp = findViewById(R.id.toSignUp);
         btnSignIn = findViewById(R.id.btn_SignIn);
-        btnForgotPass = findViewById(R.id.btn_forgot);
+        btnToForgotPass = findViewById(R.id.btn_forgot);
         btnGoogle = findViewById(R.id.btn_google);
         Email = findViewById(R.id.textInputEmail);
         Password = findViewById(R.id.textInputPassword);
@@ -76,14 +76,12 @@ public class Login extends AppCompatActivity {
         btnToSignUp.setOnClickListener(view -> {
             Intent moveToSignUp = new Intent(Login.this, Register.class);
             startActivity(moveToSignUp);
-            finish();
         });
 
         //clickable button to move to Forgot Password Screen
-        btnForgotPass.setOnClickListener(view -> {
+        btnToForgotPass.setOnClickListener(view -> {
             Intent moveToForgotPass = new Intent(Login.this, ForgotPassword.class);
             startActivity(moveToForgotPass);
-            finish();
         });
 
         //Configure Google Sign In
@@ -97,7 +95,7 @@ public class Login extends AppCompatActivity {
             Intent googleSignIn = googleSignInClient.getSignInIntent();
             startActivityForResult(googleSignIn, RC_SIGN_IN);
         });
-        
+
         //clickable button to Sign In and move to Category Screen
         btnSignIn.setOnClickListener(view -> {
             email = Email.getEditText().getText().toString().trim();
@@ -105,6 +103,7 @@ public class Login extends AppCompatActivity {
 
             //check validation of input
             if (isValid()) {
+                counter = 0;
                 //show progress when validation is true
                 progressBar.setVisibility(View.VISIBLE);
                 Timer time = new Timer();
@@ -125,7 +124,6 @@ public class Login extends AppCompatActivity {
                                         builder.setPositiveButton("OK", (dialogInterface, i) -> {
                                             Intent intent = new Intent(Login.this, Category.class);
                                             startActivity(intent);
-                                            finish();
                                         });
                                         progressBar.setVisibility(View.GONE);
                                         AlertDialog alertDialog = builder.create();
@@ -135,6 +133,7 @@ public class Login extends AppCompatActivity {
                                         Toast.makeText(Login.this, "Please verify your email first", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(Login.this, "Wrong account", Toast.LENGTH_SHORT).show();
                                 }
                             });

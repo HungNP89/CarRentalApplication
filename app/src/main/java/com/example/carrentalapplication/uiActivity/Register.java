@@ -59,7 +59,6 @@ public class Register extends AppCompatActivity {
         btnToSignIn.setOnClickListener(view -> {
             Intent moveToSignIn = new Intent(Register.this, Login.class);
             startActivity(moveToSignIn);
-            finish();
         });
 
         //setting up reference to interact with Firebase services
