@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
 
@@ -49,7 +50,8 @@
                 android:hint="@string/username"
                 android:maxWidth="480dp"
                 android:textColorHint="@color/black_steel"
-                app:startIconDrawable="@drawable/baseline_account_circle_24">
+                app:startIconDrawable="@drawable/baseline_account_circle_24"
+                app:startIconTint="@color/brick_red">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -68,7 +70,8 @@
                 android:hint="@string/email"
                 android:maxWidth="480dp"
                 android:textColorHint="@color/black_steel"
-                app:startIconDrawable="@drawable/baseline_email_24">
+                app:startIconDrawable="@drawable/baseline_email_24"
+                app:startIconTint="@color/brick_red">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -87,7 +90,8 @@
                 android:hint="@string/phone"
                 android:maxWidth="480dp"
                 android:textColorHint="@color/black_steel"
-                app:startIconDrawable="@drawable/baseline_phone_24">
+                app:startIconDrawable="@drawable/baseline_phone_24"
+                app:startIconTint="@color/brick_red">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -106,7 +110,8 @@
                 android:hint="@string/address"
                 android:maxWidth="480dp"
                 android:textColorHint="@color/black_steel"
-                app:startIconDrawable="@drawable/baseline_location_on_24">
+                app:startIconDrawable="@drawable/baseline_location_on_24"
+                app:startIconTint="@color/brick_red">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -126,7 +131,9 @@
                 android:maxWidth="480dp"
                 android:textColorHint="@color/black_steel"
                 app:endIconMode="password_toggle"
-                app:startIconDrawable="@drawable/baseline_lock_24">
+                app:endIconTint="@color/brick_red"
+                app:startIconDrawable="@drawable/baseline_lock_24"
+                app:startIconTint="@color/brick_red">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"

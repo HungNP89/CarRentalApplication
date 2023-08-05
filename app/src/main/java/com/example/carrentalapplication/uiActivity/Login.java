@@ -205,10 +205,9 @@ public class Login extends AppCompatActivity {
                         reference.child(user.getUid()).setValue(map);
 
                         Handler handler = new Handler();
-                        handler.postDelayed((Runnable) () -> {
+                        handler.postDelayed(() -> {
                             Intent intent = new Intent(Login.this, Category.class);
                             startActivity(intent);
-                            finish();
                         }, 2000);
 
                     } else {

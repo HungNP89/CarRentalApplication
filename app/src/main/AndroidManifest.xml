@@ -16,42 +16,57 @@
         android:theme="@style/Theme.CarRentalApplication"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".uiActivity.Motorcycle"
+            android:name=".uiActivity.Setting"
             android:exported="false" />
+        <activity
+            android:name=".uiActivity.Motorcycle"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.EBike"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.SportCar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.ElectricCar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.HybridCar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.NormalCar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.Category"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.ForgotPassword"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.Register"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.Login"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".uiActivity.MainActivity"
             android:exported="false" />
         <activity
             android:name=".uiActivity.SplashScreen"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:noHistory="true"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,12 +5,10 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.carrentalapplication.R;
-import com.example.carrentalapplication.uiFragment.Home;
 
 public class Category extends AppCompatActivity {
     //For interacting with design ID in XML file
@@ -34,7 +32,7 @@ public class Category extends AppCompatActivity {
 
         //Clickable button to change screen
         btnSkip.setOnClickListener(view -> {
-            Intent skip = new Intent(Category.this, Home.class);
+            Intent skip = new Intent(Category.this, MainActivity.class);
             startActivity(skip);
             finish();
         });
@@ -42,7 +40,7 @@ public class Category extends AppCompatActivity {
         cardNormal.setOnClickListener(view -> {
             Intent toNormal = new Intent(Category.this, NormalCar.class);
             startActivity(toNormal);
-            finish();
+
         });
 
         cardHybrid.setOnClickListener(view -> {

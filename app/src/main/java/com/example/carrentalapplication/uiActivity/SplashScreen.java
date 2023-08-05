@@ -2,6 +2,7 @@ package com.example.carrentalapplication.uiActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.carrentalapplication.R;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashScreen extends AppCompatActivity {
     TextView SSText;
     LottieAnimationView animationView;
@@ -34,12 +36,9 @@ public class SplashScreen extends AppCompatActivity {
         SSText.setAnimation(botAnimation);
 
         //modify transition between splash screen and login screen
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent moveToLogin = new Intent(SplashScreen.this, Register.class);
-                startActivity(moveToLogin);
-            }
+        new Handler().postDelayed(() -> {
+            Intent moveToLogin = new Intent(SplashScreen.this, Login.class);
+            startActivity(moveToLogin);
         },3000);
     }
 }
