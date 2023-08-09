@@ -39,4 +39,10 @@
     <string name="view_all">view all</string>
     <string name="hot_deals">Hot Deals</string>
     <string name="available">Available</string>
+    <string name="name">Name</string>
+    <string name="price">Price</string>
+    <string name="book">Book</string>
+    <string name="per_day">per day</string>
+    <string name="popularcar">popularCar</string>
+    <string name="year">Year</string>
 </resources>
