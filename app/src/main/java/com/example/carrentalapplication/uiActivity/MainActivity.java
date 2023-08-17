@@ -1,21 +1,15 @@
 package com.example.carrentalapplication.uiActivity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.carrentalapplication.R;
 import com.example.carrentalapplication.databinding.ActivityMainBinding;
-import com.example.carrentalapplication.uiFragment.Home;
-import com.example.carrentalapplication.uiFragment.Profile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_car_rental, R.id.navigation_profile, R.id.navigation_location_pick_up)
+                R.id.navigation_home, R.id.navigation_car_rental, R.id.navigation_chat, R.id.navigation_location_pick_up, R.id.navigation_setting)
                 .build();
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
         assert navHostFragment != null : "navHostFragment not found";

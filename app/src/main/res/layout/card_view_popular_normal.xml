@@ -14,80 +14,103 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/text_popular"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="serif-monospace"
+            android:gravity="top"
             android:text="@string/name"
-            android:layout_marginHorizontal="10dp"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:fontFamily="serif-monospace"
-            android:layout_marginTop="10dp"
-            android:gravity="top"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_below="@id/text_popular"
-            android:layout_marginTop="5dp"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/year"
-            android:fontFamily="serif-monospace"
-            android:gravity="center_vertical"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/normal_bg"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/popularcar" />
+            android:textColor="@color/black_steel"/>
 
         <TextView
             android:id="@+id/text_popular2"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:text="@string/price"
-            android:textSize="25sp"
-            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:textColor="@color/black_steel"
-            android:textStyle="bold"
-            android:fontFamily="serif-monospace"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/circle"
+            android:gravity="center"
+            android:text="@string/_4_5"
+            app:drawableEndCompat="@drawable/baseline_star_rate_24"
+            app:drawableTint="@color/gold_leaf" />
 
         <TextView
             android:id="@+id/text_popular3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_popular"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="serif-monospace"
+            android:gravity="center_vertical"
+            android:textColor="@color/black_steel"
+            android:text="@string/year" />
+
+        <ImageView
+            android:id="@+id/image_view_popular"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/popularcar"
+            android:scaleType="centerCrop"
+            android:src="@drawable/normal_bg" />
+
+        <TextView
+            android:id="@+id/text_popular4"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="serif-monospace"
+            android:gravity="center_vertical"
+            android:text="@string/price"
+            android:textColor="@color/black_steel"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/baseline_euro_24" />
+
+        <TextView
+            android:id="@+id/text_popular5"
             android:layout_width="60dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@id/text_popular2"
+            android:layout_marginStart="3dp"
             android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@id/text_popular4"
+            android:fontFamily="serif-monospace"
+            android:gravity="center_vertical"
             android:text="@string/per_day"
-            android:layout_marginStart="5dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:textColor="@color/black_steel"
-            android:fontFamily="serif-monospace"/>
+            android:textColor="@color/black_steel" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="130dp"
             android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/book"
-            android:textAllCaps="false"
-            android:textSize="20sp"
+            android:background="@drawable/custom_button"
             android:elevation="0dp"
             android:fontFamily="serif-monospace"
-            android:background="@drawable/custom_button"
-            android:layout_alignParentEnd="true"/>
+            android:text="@string/book"
+            android:textAllCaps="false"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

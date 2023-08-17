@@ -37,7 +37,7 @@
     <string name="explore_normals_car_n_we_have">Explore normals car\nwe have</string>
     <string name="most_popular">Most Popular</string>
     <string name="view_all">view all</string>
-    <string name="hot_deals">Hot Deals</string>
+    <string name="hot_deals">Hot Deals -30%</string>
     <string name="available">Available</string>
     <string name="name">Name</string>
     <string name="price">Price</string>
@@ -45,4 +45,7 @@
     <string name="per_day">per day</string>
     <string name="popularcar">popularCar</string>
     <string name="year">Year</string>
+    <string name="_4_5">4.5</string>
+    <string name="setting">Setting</string>
+    <string name="chat">Chat</string>
 </resources>

@@ -18,14 +18,20 @@
         tools:layout="@layout/fragment_car_rental" />
 
     <fragment
-        android:id="@+id/navigation_profile"
-        android:name="com.example.carrentalapplication.uiFragment.Profile"
-        android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
-
-    <fragment
         android:id="@+id/navigation_location_pick_up"
         android:name="com.example.carrentalapplication.uiFragment.LocationPickUp"
         android:label="@string/title_location"
         tools:layout="@layout/fragment_location_pick_up"/>
+
+    <fragment
+        android:id="@+id/navigation_chat"
+        android:name="com.example.carrentalapplication.uiFragment.ChatBot"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat_bot" />
+
+    <fragment
+        android:id="@+id/navigation_setting"
+        android:name="com.example.carrentalapplication.uiFragment.Setting"
+        android:label="@string/title_location"
+        tools:layout="@layout/fragment_setting"/>
 </navigation>
