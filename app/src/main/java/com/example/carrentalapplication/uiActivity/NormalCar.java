@@ -3,14 +3,10 @@ package com.example.carrentalapplication.uiActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,9 +25,9 @@ import com.example.carrentalapplication.uiFragment.Setting;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NormalCar extends AppCompatActivity {
     //For interacting with UI design in XML file
@@ -65,7 +61,7 @@ public class NormalCar extends AppCompatActivity {
         recyclerView1 = findViewById(R.id.popular_normal_car);
         recyclerView2 = findViewById(R.id.hot_deal_normal);
         recyclerView3 = findViewById(R.id.available);
-
+        String type = getIntent().getStringExtra("type");
         //Set up clickable bottom navigation bar to redirect to other main fragments
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 item -> {
@@ -93,17 +89,27 @@ public class NormalCar extends AppCompatActivity {
 
         //connect data in fireStore and show in recycleView of popular normal car
         popularNormalModelArrayList = new ArrayList<>();
-        fireStore.collection("Popular Normal").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                    PopularNormalModel PNM = documentSnapshot.toObject(PopularNormalModel.class);
+        if(type == null || type.isEmpty()) {
+            fireStore.collection("Popular Car By Category").get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                        PopularNormalModel PNM = documentSnapshot.toObject(PopularNormalModel.class);
+                        popularNormalModelArrayList.add(PNM);
+                        popularNormalAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        }
+        if (type != null && type.equalsIgnoreCase("normal")) {
+            fireStore.collection("Popular Car By Category").whereEqualTo("type", "normal").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot ds: documentSnapshots) {
+                    PopularNormalModel PNM = ds.toObject(PopularNormalModel.class);
                     popularNormalModelArrayList.add(PNM);
                     popularNormalAdapter.notifyDataSetChanged();
                 }
-            } else {
-                Log.w("", "Error getting document.", task.getException());
-            }
-        });
+            });
+        }
         popularNormalAdapter = new PopularNormalAdapter(this, popularNormalModelArrayList);
         recyclerView1.setAdapter(popularNormalAdapter);
         recyclerView1.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
@@ -111,17 +117,30 @@ public class NormalCar extends AppCompatActivity {
 
         //connect data in fireStore and show in recycleView of hot deal normal car
         hotDealNormalModels = new ArrayList<>();
-        fireStore.collection("Hot Deal Normal").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                    HotDealNormalModel HDNM = documentSnapshot.toObject(HotDealNormalModel.class);
-                    hotDealNormalModels.add(HDNM);
-                    hotDealNormalAdapter.notifyDataSetChanged();
+        if(type == null || type.isEmpty()) {
+            fireStore.collection("Hot Deal By Category").get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                        HotDealNormalModel HNM = documentSnapshot.toObject(HotDealNormalModel.class);
+                        hotDealNormalModels.add(HNM);
+                        hotDealNormalAdapter.notifyDataSetChanged();
+                    }
                 }
-            } else {
-                Log.w("", "Error getting document", task.getException());
-            }
-        });
+            });
+        }
+        if (type != null && type.equalsIgnoreCase("normal")) {
+            fireStore.collection("Hot Deal By Category").whereEqualTo("type", "normal").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                        HotDealNormalModel HNM = documentSnapshot.toObject(HotDealNormalModel.class);
+                        hotDealNormalModels.add(HNM);
+                        hotDealNormalAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    Log.w("", "Error getting document.", task.getException());
+                }
+            });
+        }
         hotDealNormalAdapter = new HotDealNormalAdapter(this, hotDealNormalModels);
         recyclerView2.setAdapter(hotDealNormalAdapter);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
@@ -129,11 +148,10 @@ public class NormalCar extends AppCompatActivity {
 
         //connect data in fireStore and show in recycleView of available normal car
         availableNormalModels = new ArrayList<>();
-        String type = getIntent().getStringExtra("type");
-        if(type == null || type.isEmpty()) {
+        if (type == null || type.isEmpty()) {
             fireStore.collection("Available Car").get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    for(DocumentSnapshot documentSnapshot: task.getResult()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         AvailableNormalModel ANM = documentSnapshot.toObject(AvailableNormalModel.class);
                         availableNormalModels.add(ANM);
                         availableNormalAdapter.notifyDataSetChanged();
@@ -141,20 +159,22 @@ public class NormalCar extends AppCompatActivity {
                 }
             });
         }
-        if(type != null && type.equalsIgnoreCase("normal")) {
-            fireStore.collection("Available Car").whereEqualTo("type","normal").get().addOnCompleteListener(task -> {
-                if(task.isSuccessful()) {
-                    for(DocumentSnapshot documentSnapshot: task.getResult().getDocuments()) {
+        if (type != null && type.equalsIgnoreCase("normal")) {
+            fireStore.collection("Available Car").whereEqualTo("type", "normal").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                         AvailableNormalModel ANM = documentSnapshot.toObject(AvailableNormalModel.class);
                         availableNormalModels.add(ANM);
                         availableNormalAdapter.notifyDataSetChanged();
                     }
+                } else {
+                    Log.w("", "Error getting document.", task.getException());
                 }
             });
         }
-        availableNormalAdapter = new AvailableNormalAdapter(this,availableNormalModels);
+        availableNormalAdapter = new AvailableNormalAdapter(this, availableNormalModels);
         recyclerView3.setAdapter(availableNormalAdapter);
-        recyclerView3.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
+        recyclerView3.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView3.setHasFixedSize(true);
     }
 }

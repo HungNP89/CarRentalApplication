@@ -34,7 +34,8 @@
     <string name="e_bike">E-Bike</string>
     <string name="motorcycle">Motorcycle</string>
     <string name="skip">Skip</string>
-    <string name="explore_normals_car_n_we_have">Explore normals car\nwe have</string>
+    <string name="explore_normals_car_n_we_have">Explore normal cars\nwe have</string>
+    <string name="explore_hybrid_car_n_we_have">Explore hybrid cars\nwe have</string>
     <string name="most_popular">Most Popular</string>
     <string name="view_all">view all</string>
     <string name="hot_deals">Hot Deals -30%</string>

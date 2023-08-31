@@ -14,30 +14,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.carrentalapplication.R;
 import com.example.carrentalapplication.model.PopularHybridModel;
-import com.example.carrentalapplication.model.PopularNormalModel;
 import com.example.carrentalapplication.uiActivity.CarDetail;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PopularNormalAdapter extends RecyclerView.Adapter<PopularNormalAdapter.ViewHolder> {
-
+public class PopularHybridAdapter extends RecyclerView.Adapter<PopularHybridAdapter.ViewHolder> {
     Context context;
-    List<PopularNormalModel> list;
+    List<PopularHybridModel> list;
 
-    public PopularNormalAdapter(Context context, List<PopularNormalModel> list) {
+    public PopularHybridAdapter(Context context, List<PopularHybridModel> list) {
         this.context = context;
         this.list = list;
     }
 
     @NonNull
     @Override
-    public PopularNormalAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PopularHybridAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_popular_normal, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularNormalAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PopularHybridAdapter.ViewHolder holder, int position) {
         Glide.with(context).load(list.get(position).getImage()).timeout(6000).into(holder.imageView);
         holder.name.setText(list.get(position).getName());
         holder.edition.setText(String.valueOf(list.get(position).getEdition()));
@@ -53,14 +50,13 @@ public class PopularNormalAdapter extends RecyclerView.Adapter<PopularNormalAdap
 
     @Override
     public int getItemCount() {
-        int limit = 5;
-        return Math.min(list.size(), limit);
+       int limit = 5;
+       return Math.min(list.size(), limit);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView name, edition, rating, price;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_popular);

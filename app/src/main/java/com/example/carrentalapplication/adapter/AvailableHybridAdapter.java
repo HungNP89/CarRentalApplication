@@ -13,31 +13,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.carrentalapplication.R;
-import com.example.carrentalapplication.model.PopularHybridModel;
-import com.example.carrentalapplication.model.PopularNormalModel;
+import com.example.carrentalapplication.model.AvailableHybridModel;
+import com.example.carrentalapplication.model.AvailableNormalModel;
 import com.example.carrentalapplication.uiActivity.CarDetail;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PopularNormalAdapter extends RecyclerView.Adapter<PopularNormalAdapter.ViewHolder> {
+public class AvailableHybridAdapter extends RecyclerView.Adapter<AvailableHybridAdapter.ViewHolder> {
 
     Context context;
-    List<PopularNormalModel> list;
+    List<AvailableHybridModel> list;
 
-    public PopularNormalAdapter(Context context, List<PopularNormalModel> list) {
+    public AvailableHybridAdapter(Context context, List<AvailableHybridModel> list) {
         this.context = context;
         this.list = list;
     }
-
     @NonNull
     @Override
-    public PopularNormalAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_popular_normal, parent, false));
+    public AvailableHybridAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new AvailableHybridAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_popular_normal, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularNormalAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AvailableHybridAdapter.ViewHolder holder, int position) {
         Glide.with(context).load(list.get(position).getImage()).timeout(6000).into(holder.imageView);
         holder.name.setText(list.get(position).getName());
         holder.edition.setText(String.valueOf(list.get(position).getEdition()));
@@ -57,10 +55,9 @@ public class PopularNormalAdapter extends RecyclerView.Adapter<PopularNormalAdap
         return Math.min(list.size(), limit);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView name, edition, rating, price;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_popular);

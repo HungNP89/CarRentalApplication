@@ -13,31 +13,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.carrentalapplication.R;
-import com.example.carrentalapplication.model.PopularHybridModel;
-import com.example.carrentalapplication.model.PopularNormalModel;
+import com.example.carrentalapplication.model.HotDealHybridModel;
 import com.example.carrentalapplication.uiActivity.CarDetail;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PopularNormalAdapter extends RecyclerView.Adapter<PopularNormalAdapter.ViewHolder> {
-
+public class HotDealHybridAdapter extends RecyclerView.Adapter<HotDealHybridAdapter.ViewHolder> {
     Context context;
-    List<PopularNormalModel> list;
+    List<HotDealHybridModel> list;
 
-    public PopularNormalAdapter(Context context, List<PopularNormalModel> list) {
+    public HotDealHybridAdapter(Context context, List<HotDealHybridModel> list) {
         this.context = context;
         this.list = list;
     }
 
     @NonNull
     @Override
-    public PopularNormalAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HotDealHybridAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_popular_normal, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularNormalAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HotDealHybridAdapter.ViewHolder holder, int position) {
         Glide.with(context).load(list.get(position).getImage()).timeout(6000).into(holder.imageView);
         holder.name.setText(list.get(position).getName());
         holder.edition.setText(String.valueOf(list.get(position).getEdition()));
@@ -60,7 +57,6 @@ public class PopularNormalAdapter extends RecyclerView.Adapter<PopularNormalAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView name, edition, rating, price;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_popular);
