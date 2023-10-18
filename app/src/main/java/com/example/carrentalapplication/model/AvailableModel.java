@@ -2,7 +2,7 @@ package com.example.carrentalapplication.model;
 
 import java.io.Serializable;
 
-public class AvailableNormalModel implements Serializable {
+public class AvailableModel implements Serializable {
     String name;
     int edition;
     double rating;
@@ -12,11 +12,11 @@ public class AvailableNormalModel implements Serializable {
     String type;
     String info;
 
-    public AvailableNormalModel() {
+    public AvailableModel() {
 
     }
 
-    public AvailableNormalModel(String name, int edition, String image, String condition, String type, double rating, int price, String info) {
+    public AvailableModel(String name, int edition, String image, String condition, String type, double rating, int price, String info) {
         this.name = name;
         this.edition = edition;
         this.image = image;

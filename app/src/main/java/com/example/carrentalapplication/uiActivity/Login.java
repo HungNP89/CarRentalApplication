@@ -2,7 +2,6 @@ package com.example.carrentalapplication.uiActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carrentalapplication.R;
@@ -30,15 +28,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Login extends AppCompatActivity {
     //For interacting with created design ID in XML file
     Button btnToSignUp, btnSignIn, btnToForgotPass, btnGoogle;
     TextInputLayout Email, Password;
     ProgressBar progressBar;
-    String email, password;
 
     //For interacting with Firebase Auth
     FirebaseAuth firebaseAuth;
@@ -48,7 +43,6 @@ public class Login extends AppCompatActivity {
 
     //For controlling Sign In input
     String pattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    int counter ;
 
     int RC_SIGN_IN = 20;
 
@@ -73,16 +67,10 @@ public class Login extends AppCompatActivity {
         reference = firebaseDatabase.getReference("UsersGoogle");
 
         //clickable button to move to Sign Up Screen
-        btnToSignUp.setOnClickListener(view -> {
-            Intent moveToSignUp = new Intent(Login.this, Register.class);
-            startActivity(moveToSignUp);
-        });
+        btnToSignUp.setOnClickListener(view -> moveToSignUp());
 
         //clickable button to move to Forgot Password Screen
-        btnToForgotPass.setOnClickListener(view -> {
-            Intent moveToForgotPass = new Intent(Login.this, ForgotPassword.class);
-            startActivity(moveToForgotPass);
-        });
+        btnToForgotPass.setOnClickListener(view -> moveToForgotPass());
 
         //Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -91,61 +79,58 @@ public class Login extends AppCompatActivity {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso);
         googleSignInClient.signOut();
-        btnGoogle.setOnClickListener(view -> {
-            Intent googleSignIn = googleSignInClient.getSignInIntent();
-            startActivityForResult(googleSignIn, RC_SIGN_IN);
-        });
+
+        //clickable button to Login by Google Account and move to Category Screen
+        btnGoogle.setOnClickListener(view -> googleSignIn());
 
         //clickable button to Sign In and move to Category Screen
-        btnSignIn.setOnClickListener(view -> {
-            email = Email.getEditText().getText().toString().trim();
-            password = Password.getEditText().getText().toString().trim();
-
-            //check validation of input
-            if (isValid()) {
-                counter = 0;
-                //show progress when validation is true
-                progressBar.setVisibility(View.VISIBLE);
-                Timer time = new Timer();
-                TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        counter++;
-                        progressBar.setProgress(counter);
-                        if (counter == 100) {
-                            time.cancel();
-                            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                                //check if user is already verify email or not
-                                if (task.isSuccessful()) {
-                                    if (firebaseAuth.getCurrentUser().isEmailVerified()) {
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                        builder.setMessage("Login Successfully");
-                                        builder.setCancelable(false);
-                                        builder.setPositiveButton("OK", (dialogInterface, i) -> {
-                                            Intent intent = new Intent(Login.this, Category.class);
-                                            startActivity(intent);
-                                        });
-                                        progressBar.setVisibility(View.GONE);
-                                        AlertDialog alertDialog = builder.create();
-                                        alertDialog.show();
-                                    } else {
-                                        progressBar.setVisibility(View.GONE);
-                                        Toast.makeText(Login.this, "Please verify your email first", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    progressBar.setVisibility(View.GONE);
-                                    Toast.makeText(Login.this, "Wrong account", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                };
-                time.schedule(timerTask, 50, 50);
-            }
-        });
+        btnSignIn.setOnClickListener(view -> signIn());
     }
 
-    private boolean isValid() {
+    private void moveToForgotPass() {
+        Intent moveToForgotPass = new Intent(Login.this, ForgotPassword.class);
+        startActivity(moveToForgotPass);
+        finish();
+    }
+
+    private void moveToSignUp() {
+        Intent moveToSignUp = new Intent(Login.this, Register.class);
+        startActivity(moveToSignUp);
+        finish();
+    }
+
+    private void googleSignIn() {
+        Intent googleSignIn = googleSignInClient.getSignInIntent();
+        startActivityForResult(googleSignIn, RC_SIGN_IN);
+    }
+
+    private void signIn() {
+        String email = Email.getEditText().getText().toString().trim();
+        String password = Password.getEditText().getText().toString().trim();
+
+        //check validation of input
+        if (isValid(email, password)) {
+            //show progress when validation is true
+            progressBar.setVisibility(View.VISIBLE);
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                //check if user is already verify email or not
+                if (task.isSuccessful()) {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if (user != null && user.isEmailVerified()) {
+                        moveToCategoryScreen();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(Login.this, "Please verify your email first", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(Login.this, "Wrong account", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private boolean isValid(String email, String password) {
         //Set condition for each input in Login
         Email.setErrorEnabled(false);
         Email.setError("");
@@ -175,6 +160,12 @@ public class Login extends AppCompatActivity {
         return isValid;
     }
 
+    private void moveToCategoryScreen() {
+        Intent intent = new Intent(Login.this, Category.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -196,19 +187,24 @@ public class Login extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("Id", user.getUid());
-                        map.put("Username", user.getDisplayName());
-                        map.put("Email", user.getEmail());
+                        if (user != null) {
+                            //Getting user information from Google Account and save to Firebase
+                            String userID = user.getUid();
+                            String userName = user.getDisplayName();
+                            String userEmail = user.getEmail();
 
-                        reference.child(user.getUid()).setValue(map);
+                            //Create HashMap to store user login by Google information
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("Id", userID);
+                            map.put("Username", userName);
+                            map.put("Email", userEmail);
 
-                        Handler handler = new Handler();
-                        handler.postDelayed(() -> {
-                            Intent intent = new Intent(Login.this, Category.class);
-                            startActivity(intent);
-                        }, 2000);
+                            //Save user information to firebase
+                            reference.child(user.getUid()).setValue(map);
 
+                            //Move Screen to Category Screen
+                            moveToCategoryScreen();
+                        }
                     } else {
                         Toast.makeText(Login.this, "Errors", Toast.LENGTH_SHORT).show();
                     }

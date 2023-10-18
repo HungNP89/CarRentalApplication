@@ -2,7 +2,7 @@ package com.example.carrentalapplication.model;
 
 import java.io.Serializable;
 
-public class PopularHybridModel implements Serializable {
+public class PopularModel implements Serializable {
     String name;
     int edition;
     double rating;
@@ -12,11 +12,11 @@ public class PopularHybridModel implements Serializable {
     String type;
     String info;
 
-    public PopularHybridModel() {
+    public PopularModel() {
 
     }
 
-    public PopularHybridModel(String name, int edition, String image, String condition, String type, double rating, int price, String info) {
+    public PopularModel(String name, int edition, String image, String condition, String type, double rating, int price, String info) {
         this.name = name;
         this.edition = edition;
         this.image = image;

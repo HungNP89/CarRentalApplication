@@ -1,76 +1,73 @@
 package com.example.carrentalapplication.uiActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.util.Log;
 import android.widget.Button;
 
 import com.example.carrentalapplication.R;
+import com.example.carrentalapplication.Support.MyFirebase;
+import com.example.carrentalapplication.adapter.CategoryAdapter;
+import com.example.carrentalapplication.model.CategoryModel;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 
 public class Category extends AppCompatActivity {
     //For interacting with design ID in XML file
     Button btnSkip;
-    CardView cardNormal, cardHybrid, cardSport, cardElectric, cardEBike, cardMotorcycle;
+    RecyclerView recyclerView;
+    ArrayList<CategoryModel> categoryModels;
+    CategoryAdapter categoryAdapter;
+    FirebaseFirestore db;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //Initialize UI elements in the layout
+        recyclerView = findViewById(R.id.category_menu);
         btnSkip = findViewById(R.id.skipButton);
-        cardNormal = findViewById(R.id.category_normal);
-        cardHybrid = findViewById(R.id.category_hybrid);
-        cardEBike = findViewById(R.id.category_e_bike);
-        cardElectric = findViewById(R.id.category_electric);
-        cardSport = findViewById(R.id.category_sport);
-        cardMotorcycle = findViewById(R.id.category_motorcycle);
 
-        //Clickable button to change screen
-        btnSkip.setOnClickListener(view -> {
+        //Initialize the skip button
+        btnSkip.setOnClickListener(v -> {
             Intent skip = new Intent(Category.this, MainActivity.class);
             startActivity(skip);
             finish();
         });
+        //Firebase connect
+        db = MyFirebase.getInstance();
 
-        cardNormal.setOnClickListener(view -> {
-            Intent toNormal = new Intent(Category.this, NormalCar.class);
-            startActivity(toNormal);
+        //connect data in Firebase and show list of category
+        categoryModels = new ArrayList<>();
 
+        //Initialize the adapter
+        categoryAdapter = new CategoryAdapter(this, categoryModels);
+
+        //Set Layout manager and adapter for RecycleView
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        recyclerView.setAdapter(categoryAdapter);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        //fetch the data and update in adapter
+        db.collection("Category").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot qds : task.getResult()) {
+                    CategoryModel categoryModel = qds.toObject(CategoryModel.class);
+                    categoryModels.add(categoryModel);
+                }
+                categoryAdapter.notifyDataSetChanged();
+            } else {
+                Log.w("", "Error getting documents", task.getException());
+            }
         });
 
-        cardHybrid.setOnClickListener(view -> {
-            Intent toHybrid = new Intent(Category.this, HybridCar.class);
-            startActivity(toHybrid);
-            finish();
-        });
-
-        cardElectric.setOnClickListener(view -> {
-            Intent toElectric = new Intent(Category.this, ElectricCar.class);
-            startActivity(toElectric);
-            finish();
-        });
-
-        cardSport.setOnClickListener(view -> {
-            Intent toSport = new Intent(Category.this, SportCar.class);
-            startActivity(toSport);
-            finish();
-        });
-
-        cardEBike.setOnClickListener(view -> {
-            Intent toEBike = new Intent(Category.this, EBike.class);
-            startActivity(toEBike);
-            finish();
-        });
-
-        cardMotorcycle.setOnClickListener(view -> {
-            Intent toMotorcycle = new Intent(Category.this, Motorcycle.class);
-            startActivity(toMotorcycle);
-            finish();
-        });
     }
 }

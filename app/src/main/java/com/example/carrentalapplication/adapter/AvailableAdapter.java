@@ -13,28 +13,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.carrentalapplication.R;
-import com.example.carrentalapplication.model.HotDealHybridModel;
+import com.example.carrentalapplication.model.AvailableModel;
 import com.example.carrentalapplication.uiActivity.CarDetail;
 
 import java.util.List;
 
-public class HotDealHybridAdapter extends RecyclerView.Adapter<HotDealHybridAdapter.ViewHolder> {
+public class AvailableAdapter extends RecyclerView.Adapter<AvailableAdapter.ViewHolder> {
     Context context;
-    List<HotDealHybridModel> list;
+    List<AvailableModel> list;
 
-    public HotDealHybridAdapter(Context context, List<HotDealHybridModel> list) {
+    public AvailableAdapter(Context context, List<AvailableModel> list) {
         this.context = context;
         this.list = list;
     }
-
     @NonNull
     @Override
-    public HotDealHybridAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_popular_normal, parent, false));
+    public AvailableAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HotDealHybridAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AvailableAdapter.ViewHolder holder, int position) {
         Glide.with(context).load(list.get(position).getImage()).timeout(6000).into(holder.imageView);
         holder.name.setText(list.get(position).getName());
         holder.edition.setText(String.valueOf(list.get(position).getEdition()));

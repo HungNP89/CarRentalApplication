@@ -11,12 +11,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.carrentalapplication.R;
-import com.example.carrentalapplication.adapter.AvailableHybridAdapter;
-import com.example.carrentalapplication.adapter.HotDealHybridAdapter;
-import com.example.carrentalapplication.adapter.PopularHybridAdapter;
-import com.example.carrentalapplication.model.AvailableHybridModel;
-import com.example.carrentalapplication.model.HotDealHybridModel;
-import com.example.carrentalapplication.model.PopularHybridModel;
+import com.example.carrentalapplication.adapter.AvailableAdapter;
+import com.example.carrentalapplication.adapter.HotDealAdapter;
+import com.example.carrentalapplication.adapter.PopularAdapter;
+import com.example.carrentalapplication.model.AvailableModel;
+import com.example.carrentalapplication.model.HotDealModel;
+import com.example.carrentalapplication.model.PopularModel;
 import com.example.carrentalapplication.uiFragment.CarRental;
 import com.example.carrentalapplication.uiFragment.ChatBot;
 import com.example.carrentalapplication.uiFragment.Home;
@@ -37,14 +37,14 @@ public class HybridCar extends AppCompatActivity {
     //For interacting with RecycleView used for listing item in each category of the screen
     RecyclerView recyclerView1, recyclerView2, recyclerView3;
 
-    ArrayList<PopularHybridModel> popularHybridModels;
-    PopularHybridAdapter popularHybridAdapter;
+    ArrayList<PopularModel> popularHybridModels;
+    PopularAdapter popularHybridAdapter;
 
-    ArrayList<HotDealHybridModel> hotDealHybridModels;
-    HotDealHybridAdapter hotDealHybridAdapter;
+    ArrayList<HotDealModel> hotDealHybridModels;
+    HotDealAdapter hotDealHybridAdapter;
 
-    ArrayList<AvailableHybridModel> availableHybridModels;
-    AvailableHybridAdapter availableHybridAdapter;
+    ArrayList<AvailableModel> availableHybridModels;
+    AvailableAdapter availableHybridAdapter;
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,93 +88,63 @@ public class HybridCar extends AppCompatActivity {
 
         //connect data in fireStore and show in recycleView of popular normal car
         popularHybridModels = new ArrayList<>();
-        if(type == null || type.isEmpty()) {
-            fireStore.collection("Popular Car By Category").get().addOnCompleteListener(task -> {
+        boolean forHybrid = type == null || type.trim().isEmpty() || "hybrid".equalsIgnoreCase(type);
+        if(forHybrid) {
+            fireStore.collection("Popular Car By Category").whereEqualTo("type","hybrid").get().addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        PopularHybridModel PHM = documentSnapshot.toObject(PopularHybridModel.class);
-                        popularHybridModels.add(PHM);
-                        popularHybridAdapter.notifyDataSetChanged();
-                    }
-                }
-            });
-        }
-        if (type != null && type.equalsIgnoreCase("electric")) {
-            fireStore.collection("Popular Car By Category").whereEqualTo("type", "electric").get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
-                        PopularHybridModel PHM = documentSnapshot.toObject(PopularHybridModel.class);
+                        PopularModel PHM = documentSnapshot.toObject(PopularModel.class);
                         popularHybridModels.add(PHM);
                         popularHybridAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    Log.w("", "Error getting document.", task.getException());
+                    Log.w("" , "Error getting document.",task.getException());
                 }
             });
         }
-        popularHybridAdapter = new PopularHybridAdapter(this, popularHybridModels);
+
+        popularHybridAdapter = new PopularAdapter(this, popularHybridModels);
         recyclerView1.setAdapter(popularHybridAdapter);
         recyclerView1.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView1.setHasFixedSize(true);
 
         //connect data in fireStore and show in recycleView of hot deal normal car
         hotDealHybridModels = new ArrayList<>();
-        if(type == null || type.isEmpty()) {
-            fireStore.collection("Hot Deal By Category").get().addOnCompleteListener(task -> {
+        if(forHybrid) {
+            fireStore.collection("Hot Deal By Category").whereEqualTo("type", "hybrid").get().addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        HotDealHybridModel HHM = documentSnapshot.toObject(HotDealHybridModel.class);
-                        hotDealHybridModels.add(HHM);
-                        hotDealHybridAdapter.notifyDataSetChanged();
-                    }
-                }
-            });
-        }
-        if (type != null && type.equalsIgnoreCase("electric")) {
-            fireStore.collection("Hot Deal By Category").whereEqualTo("type", "electric").get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
-                        HotDealHybridModel HHM = documentSnapshot.toObject(HotDealHybridModel.class);
+                        HotDealModel HHM = documentSnapshot.toObject(HotDealModel.class);
                         hotDealHybridModels.add(HHM);
                         hotDealHybridAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    Log.w("", "Error getting document.", task.getException());
+                    Log.w("","Error getting document.",task.getException());
                 }
             });
         }
-        hotDealHybridAdapter = new HotDealHybridAdapter(this, hotDealHybridModels);
+        hotDealHybridAdapter = new HotDealAdapter(this, hotDealHybridModels);
         recyclerView2.setAdapter(hotDealHybridAdapter);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView2.setHasFixedSize(true);
 
         //connect data in fireStore and show in recycleView of available normal car
         availableHybridModels = new ArrayList<>();
-        if (type == null || type.isEmpty()) {
-            fireStore.collection("Available Car").get().addOnCompleteListener(task -> {
+        if (forHybrid) {
+            fireStore.collection("Available Car").whereEqualTo("type","hybrid").get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        AvailableHybridModel AHM = documentSnapshot.toObject(AvailableHybridModel.class);
-                        availableHybridModels.add(AHM);
-                        availableHybridAdapter.notifyDataSetChanged();
-                    }
-                }
-            });
-        }
-        if (type != null && type.equalsIgnoreCase("electric")) {
-            fireStore.collection("Available Car").whereEqualTo("type", "electric").get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
-                        AvailableHybridModel AHM = documentSnapshot.toObject(AvailableHybridModel.class);
+                        AvailableModel AHM = documentSnapshot.toObject(AvailableModel.class);
                         availableHybridModels.add(AHM);
                         availableHybridAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    Log.w("", "Error getting document.", task.getException());
+                    Log.w("","Error getting document.",task.getException());
                 }
             });
         }
-        availableHybridAdapter = new AvailableHybridAdapter(this, availableHybridModels);
+
+        availableHybridAdapter = new AvailableAdapter(this, availableHybridModels);
         recyclerView3.setAdapter(availableHybridAdapter);
         recyclerView3.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView3.setHasFixedSize(true);

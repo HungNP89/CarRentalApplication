@@ -13,31 +13,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.carrentalapplication.R;
-import com.example.carrentalapplication.model.PopularHybridModel;
-import com.example.carrentalapplication.model.PopularNormalModel;
+import com.example.carrentalapplication.model.PopularModel;
 import com.example.carrentalapplication.uiActivity.CarDetail;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PopularNormalAdapter extends RecyclerView.Adapter<PopularNormalAdapter.ViewHolder> {
+public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
 
     Context context;
-    List<PopularNormalModel> list;
+    List<PopularModel> list;
 
-    public PopularNormalAdapter(Context context, List<PopularNormalModel> list) {
+    public PopularAdapter(Context context, List<PopularModel> list) {
         this.context = context;
         this.list = list;
     }
 
     @NonNull
     @Override
-    public PopularNormalAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_popular_normal, parent, false));
+    public PopularAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularNormalAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PopularAdapter.ViewHolder holder, int position) {
         Glide.with(context).load(list.get(position).getImage()).timeout(6000).into(holder.imageView);
         holder.name.setText(list.get(position).getName());
         holder.edition.setText(String.valueOf(list.get(position).getEdition()));
